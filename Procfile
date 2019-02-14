@@ -1,1 +1,1 @@
-java $JAVA_OPTS -jar target/application.jar --server-port=$PORT $JAR_OPTS
+java $JAVA_OPTS -jar target/application.jar --server.port=$PORT $JAR_OPTS
