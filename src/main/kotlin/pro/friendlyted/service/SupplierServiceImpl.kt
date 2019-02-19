@@ -15,6 +15,9 @@ class SupplierServiceImpl : SupplierService {
     override fun interval(): Pair<Interval, Pitches> {
         val lowerPitch = randomPitch()
         val interval = Interval.values().random()
+        if(interval == Interval.p1){
+            return interval()
+        }
 
         try {
             val pitches = intervalBuilder!!.buildChord(lowerPitch, interval)

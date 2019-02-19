@@ -16,7 +16,7 @@ object ChordGenerator {
             outputFolder.mkdirs()
 
             val pitchList = ArrayList<MidiPitch>()
-            (MusicPitch.C2.midiPitch.pitch() until MusicPitch.G6.midiPitch.pitch())
+            (MusicPitch.C2.midiPitch.pitch() until MusicPitch.C8.midiPitch.pitch())
                 .map { MidiPitch.forPitch(it) }
                 .map(pitchList::add)
 
