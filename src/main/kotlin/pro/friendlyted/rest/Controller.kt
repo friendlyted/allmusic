@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import pro.friendlyted.api.Quest
 import pro.friendlyted.api.SupplierService
+import pro.friendlyted.api.YandexMappingService
 import java.io.IOException
 import javax.inject.Inject
 
@@ -20,16 +21,21 @@ class Controller {
     @Inject
     private val supplierService: SupplierService? = null
 
+    @Inject
+    private val yaService: YandexMappingService? = null
+
     @RequestMapping("/quest/interval")
     fun intervalQuest(): Quest {
         val (interval, pitches) = supplierService!!.interval()
-        return Quest(pitches.toString(), interval.name)
+        val sound = yaService!!.map(pitches.toString())
+        return Quest(pitches.toString(), interval.name, sound)
     }
 
     @RequestMapping("/quest/triad")
     fun triadQuest(): Quest {
         val (triad, pitches) = supplierService!!.triad()
-        return Quest(pitches.toString(), triad.name)
+        val sound = yaService!!.map(pitches.toString())
+        return Quest(pitches.toString(), triad.name, sound)
     }
 
     @RequestMapping(path = ["/media/{file}"], method = [RequestMethod.GET])
