@@ -28,14 +28,18 @@ class Controller {
     fun intervalQuest(): Quest {
         val (interval, pitches) = supplierService!!.interval()
         val sound = yaService!!.map(pitches.toString())
-        return Quest(pitches.toString(), interval.name, sound)
+        val quest = Quest(pitches.toString(), interval.name, sound)
+        println(quest)
+        return quest
     }
 
     @RequestMapping("/quest/triad")
     fun triadQuest(): Quest {
         val (triad, pitches) = supplierService!!.triad()
         val sound = yaService!!.map(pitches.toString())
-        return Quest(pitches.toString(), triad.name, sound)
+        val quest = Quest(pitches.toString(), triad.name, sound)
+        println(quest)
+        return quest
     }
 
     @RequestMapping(path = ["/media/{file}"], method = [RequestMethod.GET])
