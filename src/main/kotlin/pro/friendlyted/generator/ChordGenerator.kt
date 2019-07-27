@@ -30,8 +30,8 @@ object ChordGenerator {
             intervals
                 .union(triads)
                 .forEach { chord ->
-                    val fileH = File(outputFolder, nameCreator.forPitchesMelodic(chord) + ".mid")
-                    val fileM = File(outputFolder, nameCreator.forPitchesHarmonic(chord) + ".mid")
+                    val fileH = File(outputFolder, nameCreator.forPitchesHarmonic(chord) + ".mid")
+                    val fileM = File(outputFolder, nameCreator.forPitchesMelodic(chord) + ".mid")
 
                     FileOutputStream(fileH).use {
                         Writer().save(it, Recorder().singleChordSequence(chord))
