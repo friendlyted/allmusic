@@ -187,30 +187,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>media-resources</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>resources</goal>
-                                </goals>
-                                <configuration>
-                                    <resources>
-                                        <resource>
-                                            <directory>${project.build.directory}/media</directory>
-                                            <includes>
-                                                <include>*.mp3</include>
-                                            </includes>
-                                            <filtering>false</filtering>
-                                            <targetPath>media</targetPath>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
