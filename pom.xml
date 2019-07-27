@@ -152,23 +152,6 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>generate-mp3</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <workingDirectory>${project.basedir}</workingDirectory>
-                                    <executable>cmd</executable>
-                                    <arguments>
-                                        <argument>/c</argument>
-                                        <argument>
-                                            <![CDATA[for %f in ("${project.build.directory}/media/*.wav") do tools\lame.exe -b 320 "${project.build.directory}/media/%~nxf"]]>
-                                        </argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>generate-opus</id>
                                 <phase>prepare-package</phase>
                                 <goals>
