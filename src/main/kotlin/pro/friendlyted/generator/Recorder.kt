@@ -24,18 +24,33 @@ class Recorder {
         }
     }
 
-    fun addNote(track: Track, note: MidiPitch) {
+    fun singleChordSequenceMelodic(chord: List<MidiPitch>): Sequence {
         try {
-            track.add(MidiEvent(ShortMessage(NOTE_ON, 0, note.pitch(), 100), 0))
-            track.add(MidiEvent(ShortMessage(NOTE_OFF, 0, note.pitch(), 100), 5))
+            val sequence = Sequence(Sequence.PPQ, 1)
+            val track = sequence.createTrack()
+            Recorder().addNotesMelodic(track, chord)
+            return sequence
         } catch (ex: Exception) {
             throw RuntimeException(ex)
         }
+    }
 
+    fun addNote(track: Track, note: MidiPitch, tick: Long = 0) {
+        try {
+            track.add(MidiEvent(ShortMessage(NOTE_ON, 0, note.pitch(), 100), tick))
+            track.add(MidiEvent(ShortMessage(NOTE_OFF, 0, note.pitch(), 100), tick+2))
+        } catch (ex: Exception) {
+            throw RuntimeException(ex)
+        }
     }
 
     fun addNotes(track: Track, notes: List<MidiPitch>) {
         notes.forEach { note -> this.addNote(track, note) }
+    }
+
+    fun addNotesMelodic(track: Track, notes: List<MidiPitch>) {
+        var tick = 0L;
+        notes.forEach { note -> this.addNote(track, note, tick); tick += 2 }
     }
 
 }

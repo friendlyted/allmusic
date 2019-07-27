@@ -6,6 +6,7 @@ import pro.friendlyted.api.MusicPitch
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import javax.sound.midi.Sequence
 
 object ChordGenerator {
 
@@ -29,11 +30,14 @@ object ChordGenerator {
             intervals
                 .union(triads)
                 .forEach { chord ->
-                    val file = File(outputFolder, nameCreator.forPitches(chord) + ".mid")
+                    val fileH = File(outputFolder, nameCreator.forPitchesMelodic(chord) + ".mid")
+                    val fileM = File(outputFolder, nameCreator.forPitchesHarmonic(chord) + ".mid")
 
-                    FileOutputStream(file).use {
-                        val sequence = Recorder().singleChordSequence(chord)
-                        Writer().save(it, sequence)
+                    FileOutputStream(fileH).use {
+                        Writer().save(it, Recorder().singleChordSequence(chord))
+                    }
+                    FileOutputStream(fileM).use {
+                        Writer().save(it, Recorder().singleChordSequenceMelodic(chord))
                     }
                 }
         } catch (ex: Exception) {
