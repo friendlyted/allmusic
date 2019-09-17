@@ -12,6 +12,7 @@
         <module>music-base</module>
         <module>music-generator</module>
         <module>music-service</module>
+        <module>alice-webhook</module>
     </modules>
 
     <packaging>pom</packaging>

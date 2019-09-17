@@ -2,88 +2,36 @@ package pro.friendlyted.ears.music.service.rest
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pro.friendlyted.ears.music.base.Chord7
-import pro.friendlyted.ears.music.base.Interval
-import pro.friendlyted.ears.music.base.Pitches
-import pro.friendlyted.ears.music.base.Triad
-import pro.friendlyted.ears.music.service.AliceMappingService
-import pro.friendlyted.ears.music.service.Quest
-import pro.friendlyted.ears.music.service.SupplierService
+import pro.friendlyted.ears.alice.webhook.AliceRequest
+import pro.friendlyted.ears.alice.webhook.AliceResponse
+import pro.friendlyted.ears.alice.webhook.AliceSession
+import pro.friendlyted.ears.music.service.AliceEarsService
 import javax.inject.Inject
-import kotlin.reflect.KFunction0
 
 @RestController
 class Controller {
 
     @Inject
-    private val supplierService: SupplierService? = null
+    var aService: AliceEarsService? = null
 
-    @Inject
-    private val aService: AliceMappingService? = null
+    @RequestMapping("/webhook")
+    fun webHook(aliceRequest: AliceRequest): AliceResponse {
+        val session = AliceSession.load(aliceRequest.session.session_id)
+        val response = AliceResponse.Response()
+        val aliceResponse = AliceResponse(
+                session = AliceResponse.Session(
+                        session_id = aliceRequest.session.session_id,
+                        message_id = aliceRequest.session.message_id,
+                        user_id = aliceRequest.session.user_id
+                ),
+                response = response,
+                version = "1.0"
+        )
 
-    @RequestMapping("/quest/interval")
-    fun intervalQuest(): Quest {
-        supplierService ?: throw Exception("wrong supplier service")
-        return generateQuest(supplierService::interval, ::intervalText)
+        aService?.process(aliceRequest, session, response) ?: throw Exception("alice service is not available")
+
+        session.save()
+        return aliceResponse
     }
 
-    @RequestMapping("/quest/triad")
-    fun triadQuest(): Quest {
-        supplierService ?: throw Exception("wrong supplier service")
-        return generateQuest(supplierService::triad, ::triadText)
-    }
-
-    @RequestMapping("/quest/chord7")
-    fun chord7Quest(): Quest {
-        supplierService ?: throw Exception("wrong supplier service")
-        return generateQuest(supplierService::chord7, ::chord7Text)
-    }
-
-    fun <T : Enum<T>>generateQuest(generator: ()->Pair<T, Pitches>, nameProvider: (T)->String ): Quest {
-        val (chord, pitches) = generator()
-        val harmonic = aService?.map(pitches.toString()) ?: throw Exception("wrong alice service")
-        val melodic = aService?.map(pitches.toString().replace("-", "_"))
-        val quest = Quest(pitches.toString(), chord.name, nameProvider(chord), harmonic, melodic)
-        println(quest)
-        return quest
-    }
-
-    fun intervalText(interval: Interval): String {
-        return when (interval) {
-            Interval.p1 -> "чистая прима"
-            Interval.m2 -> "малая секунда"
-            Interval.M2 -> "большая секунда"
-            Interval.m3 -> "малая терция"
-            Interval.M3 -> "большая терция"
-            Interval.p4 -> "чистая кварта"
-            Interval.A4 -> "тритон"
-            Interval.d5 -> "чистая квинта"
-            Interval.p5 -> "тритон"
-            Interval.m6 -> "малая секста"
-            Interval.M6 -> "большая секста"
-            Interval.m7 -> "малая септима"
-            Interval.M7 -> "большая септима"
-            Interval.p8 -> "чистая октава"
-        }
-    }
-
-    fun triadText(triad: Triad): String {
-        return when (triad) {
-            Triad.M53 -> "мажорное трезвучие"
-            Triad.M6 -> "мажорный секстаккорд"
-            Triad.M64 -> "мажорный квартсекстаккорд"
-            Triad.m53 -> "минорное трезвучие"
-            Triad.m6 -> "минорный секстаккорд"
-            Triad.m64 -> "минорный квартсекстаккорд"
-            Triad.d53 -> "уменьшённое трезвучие"
-            Triad.A53 -> "увеличенное трезвучие"
-        }
-    }
-
-    fun chord7Text(chord7: Chord7): String {
-        return when (chord7) {
-            Chord7.MMm2 -> "мажорное трезвучие"
-            else -> ""
-        }
-    }
 }
