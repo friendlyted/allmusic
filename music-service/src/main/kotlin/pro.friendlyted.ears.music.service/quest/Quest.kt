@@ -1,4 +1,4 @@
-package pro.friendlyted.ears.music.service
+package pro.friendlyted.ears.music.service.quest
 
 data class Quest(
     val question: String,

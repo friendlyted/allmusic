@@ -1,4 +1,4 @@
-package pro.friendlyted.ears.alice.webhook
+package pro.friendlyted.ears.music.service.webhook
 
 class AliceRequest(
         val meta: Meta,
@@ -14,11 +14,11 @@ class AliceRequest(
     )
 
     data class Request(
-            val command: String,
+            val command: String?,
             val original_utterance: String,
             val type: RequestType,
-            val markup: Markup,
-            val payload: Object
+            val markup: Markup?,
+            val payload: Object?
     )
 
     data class Session(

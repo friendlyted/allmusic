@@ -1,31 +1,33 @@
 package pro.friendlyted.ears.music.service
 
-fun String.nearToAny(vararg others: String): Boolean {
-    return others.any { nearTo(it) }
-}
+import kotlin.math.abs
 
-fun String.nearTo(other: String): Boolean {
+fun String.nearToAny(vararg others: String?) = others.any { nearTo(it) }
+
+fun String.nearTo(other: String?): Boolean {
+    if (other == null) return false
     if (other.length <= 5 || length <= 5) {
-        return this == other
+        return this.equals(other, true)
     }
     val requiredDistance = (this.length / 5)
-    if (Math.abs(length - other.length) > requiredDistance) {
+    if (abs(length - other.length) > requiredDistance) {
         return false
     }
     return distanceTo(other) <= requiredDistance
 }
 
-fun String.distanceTo(other: String): Int {
+fun String.distanceTo(other: String?): Int {
+    if (other == null) return this.length
     fun min(vararg numbers: Int): Int {
-        return numbers.min()?.or(Integer.MAX_VALUE) ?: Integer.MAX_VALUE
+        return numbers.min()!!
     }
 
     fun costOfSubstitution(a: Char, b: Char): Int {
         return if (a == b) 0 else 1
     }
 
-    val x = this
-    val y = other
+    val x = this.toLowerCase()
+    val y = other.toLowerCase()
 
     val dp = Array(x.length + 1) { IntArray(y.length + 1) }
 
@@ -45,5 +47,3 @@ fun String.distanceTo(other: String): Int {
 
     return dp[x.length][y.length]
 }
-
-
