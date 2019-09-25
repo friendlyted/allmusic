@@ -168,7 +168,7 @@ open class AliceTools(val execution: ExecutionEntity) {
     companion object {
         fun clean(command: String): String {
             return command.replace(Regex("(^| )(ну|я|думаю|полагаю|скорее|скорее всего|наверное|вероятно|" +
-                    "это|же|да|ж|может|уж|точно|а|допустим|давай|скажем|что|предполагаю|тоже) "), " ")
+                    "вот|это|же|да|ж|может|уж|точно|а|допустим|давай|скажем|что|предполагаю|тоже) "), " ")
         }
 
         val intervalButtons = arrayOf(
