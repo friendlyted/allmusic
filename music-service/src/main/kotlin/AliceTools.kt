@@ -42,9 +42,9 @@ open class AliceTools(val execution: ExecutionEntity) {
         supplierService ?: throw java.lang.Exception("There is no quest supplier service")
         val generateMode = mode.split(" ").random()
         val pair: Pair<Enum<*>, Pitches> = when (generateMode) {
-            "interval" -> supplierService!!.interval()
-            "triad" -> supplierService!!.triad()
-            "chord7" -> supplierService!!.chord7()
+            "interval" -> supplierService.interval()
+            "triad" -> supplierService.triad()
+            "chord7" -> supplierService.chord7()
             else -> throw Exception("There is no mode processor for $generateMode")
         }
 
@@ -52,8 +52,8 @@ open class AliceTools(val execution: ExecutionEntity) {
         val pitches = pair.second
 
         val sound = pitches.toString()
-        val harmonic = aliceMappingService!!.map(sound)
-        val melodic = aliceMappingService!!.map(sound.replace("-", "_"))
+        val harmonic = aliceMappingService.map(sound)
+        val melodic = aliceMappingService.map(sound.replace("-", "_"))
         val answer = answerForCode((chord.name))
 
         execution.setVariable("questCode", chord.name)
