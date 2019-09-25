@@ -40,7 +40,7 @@
         <bpmn:targetRef>DataObjectReference_02zhxo5</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
       <bpmn:script>execution.setVariable('text','Послушайте');
-return choice;</bpmn:script>
+choice</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1tad525">
       <bpmn:incoming>SequenceFlow_15ag188</bpmn:incoming>
