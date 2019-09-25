@@ -149,6 +149,22 @@ open class AliceTools(val execution: ExecutionEntity) {
         return result
     }
 
+    open fun getCorrectText(): String = listOf(
+            "Верно!",
+            "Точно!",
+            "Правильно!",
+            "Угадали!",
+            "А теперь?"
+    ).random()
+
+    open fun getIncorrectText(): String = listOf(
+            "Неверно!",
+            "Нет!",
+            "Неправильно!",
+            "Не угадали!",
+            "Мимо!"
+    ).random()
+
     companion object {
         fun clean(command: String): String {
             return command.replace(Regex("(^| )(ну|я|думаю|полагаю|скорее|скорее всего|наверное|вероятно|" +

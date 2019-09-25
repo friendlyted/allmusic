@@ -105,7 +105,6 @@
         <bpmn:targetRef>Property_10ymp52</bpmn:targetRef>
       </bpmn:dataInputAssociation>
       <bpmn:script>new AliceTools(execution).with{
-  addText("Послушайте")
   addSound(sound)
   setButtons(getButtonsForMode(mode))
 }</bpmn:script>
@@ -142,8 +141,9 @@
       <bpmn:incoming>SequenceFlow_1x8psww</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02wtomy</bpmn:outgoing>
       <bpmn:script>new AliceTools(execution).with{
-  addText("Не верно")
-  addTts("Не верно")
+  def text = getIncorrectText()
+  addText(text)
+  addTts(text)
 }</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1ymz1w1">
@@ -282,8 +282,9 @@ if(choice=='melodic') sound = questMelodicSound</bpmn:script>
         <bpmn:targetRef>Property_14n1bum</bpmn:targetRef>
       </bpmn:dataInputAssociation>
       <bpmn:script>new AliceTools(execution).with{
-  addText("Верно! Продолжаем!")
-  addTts("Верно! Продолжаем!")
+  def text = getCorrectText()
+  addText(text)
+  addTts(text)
 }</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0qjtdqu" sourceRef="ExclusiveGateway_1ot9srv" targetRef="Task_177xtah">
@@ -350,12 +351,12 @@ if(choice=='melodic') sound = questMelodicSound</bpmn:script>
       <bpmn:outgoing>SequenceFlow_1n4gv8d</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0272pa8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:scriptTask id="ScriptTask_1v0h0x4" name="Извините, не понятно" scriptFormat="groovy">
+    <bpmn:scriptTask id="ScriptTask_1v0h0x4" name="Извините, непонятно" scriptFormat="groovy">
       <bpmn:incoming>SequenceFlow_0m3jcda</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jj77oz</bpmn:outgoing>
       <bpmn:script>new AliceTools(execution).with{
-  setText("Извините, не понятно")
-  setTts("Извините, не понятно")
+  setText("Извините, непонятно")
+  setTts("Извините, непонятно")
 }</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Task_145t0e3" name="Parse" scriptFormat="groovy" camunda:resultVariable="choice">
