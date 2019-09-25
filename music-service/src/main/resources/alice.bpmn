@@ -39,8 +39,7 @@
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1ckg8r2">
         <bpmn:targetRef>DataObjectReference_02zhxo5</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
-      <bpmn:script>execution.setVariable('text','Послушайте');
-choice</bpmn:script>
+      <bpmn:script>choice</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1tad525">
       <bpmn:incoming>SequenceFlow_15ag188</bpmn:incoming>
@@ -106,6 +105,7 @@ choice</bpmn:script>
         <bpmn:targetRef>Property_10ymp52</bpmn:targetRef>
       </bpmn:dataInputAssociation>
       <bpmn:script>new AliceTools(execution).with{
+  addText('Послушайте')
   addSound(sound)
   setButtons(getButtonsForMode(mode))
 }</bpmn:script>
