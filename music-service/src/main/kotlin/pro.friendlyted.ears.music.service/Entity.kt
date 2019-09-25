@@ -8,6 +8,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 data class EntityModel(
+        val required: List<String>?,
         val equals: List<String>?,
         val near: List<String>?,
         val nearIgnoreCase: List<String>?
@@ -26,6 +27,11 @@ class Entity(val name: String, val eqFunc: (String) -> Boolean) {
 
         private fun createEntity(name: String, model: EntityModel): Entity {
             return Entity(name) { command ->
+                if(model.required != null){
+                    if(model.required.any { !command.contains(Regex(it)) }) {
+                        return@Entity false
+                    }
+                }
                 if (model.equals != null) {
                      model.equals.forEach {
                         if (it == command) {
