@@ -14,9 +14,11 @@ import pro.friendlyted.ears.music.generator.Recorder
 import pro.friendlyted.ears.music.generator.Writer
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 import java.util.Arrays.asList
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 @Ignore
 @RunWith(SpringRunner::class)
@@ -34,6 +36,7 @@ class ChordGenerator {
     val MID = ".mid"
 
     @Test
+    @Ignore
     fun generateMidiTest() {
         try {
             File(mediaFolder).mkdirs()
@@ -68,6 +71,7 @@ class ChordGenerator {
     }
 
     @Test
+    @Ignore
     fun convertMidToWavTest() {
         ProcessBuilder("tools/timidity.exe", "-Ow", "$mediaFolder/*$MID".removePrefix("/"))
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
@@ -77,6 +81,7 @@ class ChordGenerator {
     }
 
     @Test
+    @Ignore
     fun convertWavToOpusTest() {
         val executor = Executors.newFixedThreadPool(6)
         File(mediaFolder).walkTopDown()
@@ -89,6 +94,7 @@ class ChordGenerator {
     }
 
     @Test
+    @Ignore
     fun deleteAllAliceSoundsTest() {
         val aService = AliceFileService().apply {
             skillId = aliceSkillId
@@ -96,7 +102,7 @@ class ChordGenerator {
         }
 
         val executor = Executors.newFixedThreadPool(6)
-        aService.listSounds().sounds.forEach{ sound ->
+        aService.listSounds().sounds.forEach { sound ->
             executor.execute {
                 try {
                     aService.deleteSound(sound.id)
@@ -111,6 +117,7 @@ class ChordGenerator {
     }
 
     @Test
+    @Ignore
     fun uploadAliceSoundTest() {
         val aService = AliceFileService().apply {
             skillId = aliceSkillId
@@ -135,18 +142,44 @@ class ChordGenerator {
         }
     }
 
+    @Test
+    @Ignore
+    fun listTest() {
+        val service = AliceFileService().apply {
+            skillId = aliceSkillId
+            oAuthToken = aliceOAuthToken
+        }
+
+        val soundMap = Properties()
+
+        service.listSounds().sounds.forEach {
+            soundMap.setProperty(it.originalName.replace(".opus", ""), it.id)
+        }
+
+        soundMap.store(FileOutputStream(File("alice.map")), null)
+    }
+
     private fun convertWavToOpus(file: File) {
+        val fileDuration = durationFor(file.name)
         val wav = file.absolutePath
         val opus = file.absolutePath.replace(".wav", ".opus")
-        ProcessBuilder("tools/ffmpeg.exe", "-i", wav, "-c:a", "libopus", "-b:a", "320K", opus)
+        ProcessBuilder("tools/ffmpeg.exe", "-to", fileDuration.toString(), "-i", wav, "-c:a", "libopus", "-b:a", "320K", opus)
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
                 .start()
                 .waitFor(60, TimeUnit.MINUTES)
     }
 
+    private fun durationFor(name: String): Any {
+        if (name.contains("-")) {
+            return 2;
+        }
+        val count = name.count { it == '_' }
+        return count + 2
+    }
 
-    fun intervalValidator(@Suppress("UNUSED_PARAMETER")chord: List<MidiPitch>): Boolean {
+
+    fun intervalValidator(@Suppress("UNUSED_PARAMETER") chord: List<MidiPitch>): Boolean {
         return true
     }
 
