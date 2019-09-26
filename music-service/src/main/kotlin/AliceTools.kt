@@ -168,7 +168,7 @@ open class AliceTools(val execution: ExecutionEntity) {
     companion object {
         fun clean(command: String): String {
             return command.replace(Regex("(^| )(ну|я|думаю|полагаю|скорее|скорее всего|наверное|вероятно|" +
-                    "вот|это|же|да|ж|может|уж|точно|а|допустим|давай|скажем|что|предполагаю|тоже) "), " ")
+                    "вот|это|же|да|ж|может|уж|точно|а|допустим|давай|скажем|что|предполагаю|тоже|опять|снова) "), " ")
         }
 
         val intervalButtons = arrayOf(
@@ -236,10 +236,10 @@ open class AliceTools(val execution: ExecutionEntity) {
                 Interval.M7.name -> "большая септима"
                 Interval.p8.name -> "чистая октава"
                 Triad.M53.name -> "мажорное трезвучие"
-                Triad.M6.name -> "мажорный секстаккорд"
+                Triad.M6t.name -> "мажорный секстаккорд"
                 Triad.M64.name -> "мажорный квартсекстаккорд"
                 Triad.m53.name -> "минорное трезвучие"
-                Triad.m6.name -> "минорный секстаккорд"
+                Triad.m6t.name -> "минорный секстаккорд"
                 Triad.m64.name -> "минорный квартсекстаккорд"
                 Triad.d53.name -> "уменьшённое трезвучие"
                 Triad.A53.name -> "увеличенное трезвучие"

@@ -7,10 +7,10 @@ enum class Triad(
         val upperInterval: Interval
 ) : IntervalStream {
     M53(M3, m3),
-    M6(m3, p4),
+    M6t(m3, p4),
     M64(p4, M3),
     m53(m3, M3),
-    m6(M3, p4),
+    m6t(M3, p4),
     m64(p4, m3),
     d53(m3, m3),
     A53(M3, M3);
