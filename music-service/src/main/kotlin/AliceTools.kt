@@ -136,11 +136,11 @@ open class AliceTools(val execution: ExecutionEntity) {
             listOf("unsure_M", "unsure_7").containsAll(toMerge) -> "M7"
 
             listOf("unsure_tM", "unsure_53").containsAll(toMerge) -> "M53"
-            listOf("unsure_tM", "unsure_t6").containsAll(toMerge) -> "M6"
+            listOf("unsure_tM", "unsure_t6").containsAll(toMerge) -> "M6t"
             listOf("unsure_tM", "unsure_64").containsAll(toMerge) -> "M64"
 
             listOf("unsure_tm", "unsure_53").containsAll(toMerge) -> "m53"
-            listOf("unsure_tm", "unsure_t6").containsAll(toMerge) -> "m6"
+            listOf("unsure_tm", "unsure_t6").containsAll(toMerge) -> "m6t"
             listOf("unsure_tm", "unsure_64").containsAll(toMerge) -> "m64"
 
             else -> choice
