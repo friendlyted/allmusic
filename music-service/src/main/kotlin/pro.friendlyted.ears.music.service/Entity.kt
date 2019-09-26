@@ -21,27 +21,30 @@ class Entity(val name: String, val eqFunc: (String) -> Boolean) {
         private val emType = object : TypeToken<HashMap<String, EntityModel>>() {}.type
 
         private fun loadFromFile(filename: String): List<Entity> {
-            val models: Map<String, EntityModel> = GSON.fromJson(InputStreamReader(javaClass.classLoader.getResourceAsStream(filename),"UTF8"), emType)
+            val models: Map<String, EntityModel> = GSON.fromJson(InputStreamReader(javaClass.classLoader.getResourceAsStream(filename), "UTF8"), emType)
             return models.map { (k, v) -> createEntity(k, v) }
         }
 
         private fun createEntity(name: String, model: EntityModel): Entity {
             return Entity(name) { command ->
-                if(model.required != null){
-                    if(model.required.any { !command.contains(Regex(it)) }) {
-                        return@Entity false
+                var valid = true
+                if (model.required != null) {
+                    if (model.required.any { !command.contains(Regex(it)) }) {
+                        valid = false
                     }
                 }
-                if (model.equals != null) {
-                     model.equals.forEach {
-                        if (it == command) {
+                if (valid) {
+                    if (model.near != null) {
+                        if (command.nearToAny(*model.near.toTypedArray())) {
                             return@Entity true
                         }
                     }
                 }
-                if (model.near != null) {
-                    if (command.nearToAny(*model.near.toTypedArray())) {
-                        return@Entity true
+                if (model.equals != null) {
+                    model.equals.forEach {
+                        if (it == command) {
+                            return@Entity true
+                        }
                     }
                 }
                 if (model.nearIgnoreCase != null) {
