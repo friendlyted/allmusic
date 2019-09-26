@@ -3,15 +3,13 @@ package pro.friendlyted.ears.music.service
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
-import java.io.StringReader
-import java.util.*
 import kotlin.collections.HashMap
 
 data class EntityModel(
         val required: List<String>?,
         val equals: List<String>?,
         val near: List<String>?,
-        val nearIgnoreCase: List<String>?
+        val nearIgnoreSpace: List<String>?
 )
 
 class Entity(val name: String, val eqFunc: (String) -> Boolean) {
@@ -47,8 +45,8 @@ class Entity(val name: String, val eqFunc: (String) -> Boolean) {
                         }
                     }
                 }
-                if (model.nearIgnoreCase != null) {
-                    model.nearIgnoreCase.forEach {
+                if (model.nearIgnoreSpace != null) {
+                    model.nearIgnoreSpace.forEach {
                         val cleanCommand = command.replace(Regex("\\s"), "")
                         if (it.nearTo(cleanCommand)) {
                             return@Entity true
