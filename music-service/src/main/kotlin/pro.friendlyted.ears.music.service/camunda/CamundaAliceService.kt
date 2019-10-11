@@ -2,6 +2,7 @@ package pro.friendlyted.ears.music.service.camunda
 
 import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity
 import pro.friendlyted.ears.music.service.EngineProvider
+import java.util.*
 
 class CamundaAliceService {
 
@@ -10,7 +11,9 @@ class CamundaAliceService {
 
         if (exec != null) {
             EngineProvider.engine.runtimeService
-                    .signal(exec.id, mapOf("command" to response.command));
+                    .setVariable(exec.id, "date", Date().time)
+            EngineProvider.engine.runtimeService
+                    .signal(exec.id, mapOf("command" to response.command))
         } else {
             startForSession(sessionId)
         }
@@ -30,7 +33,8 @@ class CamundaAliceService {
         EngineProvider.engine.runtimeService
                 .startProcessInstanceByKey(
                         "AliceProcess",
-                        sessionId
+                        sessionId,
+                        mapOf("date" to Date().time)
                 )
     }
 

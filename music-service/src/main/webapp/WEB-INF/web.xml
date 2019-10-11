@@ -7,8 +7,16 @@
         <servlet-name>webhookServlet</servlet-name>
         <servlet-class>pro.friendlyted.ears.music.service.rest.WebhookServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>cleanupServlet</servlet-name>
+        <servlet-class>pro.friendlyted.ears.music.service.rest.CleanupServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>webhookServlet</servlet-name>
         <url-pattern>/webhook</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cleanupServlet</servlet-name>
+        <url-pattern>/cleanup</url-pattern>
     </servlet-mapping>
 </web-app>
